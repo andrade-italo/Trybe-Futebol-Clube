@@ -1,0 +1,21 @@
+[{
+  "id": 1,
+  "username": "Alves",
+  "role": "admin",
+  "email": "italo@gmail.com",
+  "password": "$2b$10$4R0z8GSYfKckcaa0nNKgguZCwlAFbU3SJjYxBLHOT38/YKNJbFfgm"
+},
+{
+  "id": 2,
+  "username": "Helena",
+  "role": "user",
+  "email": "victoria@gmail.com",
+  "password": "$2b$10$OQW7UNwGhe/EVbhf0nTiOuK.cumtmMEWS7WAnXm/fJpYB/b81x3fK"
+},
+{
+  "id": 3,
+  "username": "Viana",
+  "role": "user",
+  "email": "vinicius@gmail.com",
+  "password": "$2b$10$7d6BIWzR4.z0/V2gkY2dT.nxYjvhZ51.eRX643kFyS.obKsBSG0/m"
+}]
