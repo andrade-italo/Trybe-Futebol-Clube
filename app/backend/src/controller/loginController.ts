@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
 import LoginService from '../services/loginService';
+// import { userInfo } from 'os';
 
 class LoginController {
   loginService: LoginService;
@@ -14,6 +15,11 @@ class LoginController {
     const loginResponse = await this.loginService.validUser(email, password);
     if (loginResponse.message) return res.status(StatusCodes.BAD_REQUEST).json(loginResponse);
     return res.status(StatusCodes.OK).json(loginResponse);
+  };
+
+  public getValidate = async (req: any, res: Response) => {
+    const { role } = req.userInfo;
+    return res.status(StatusCodes.OK).json({ role });
   };
 }
 
