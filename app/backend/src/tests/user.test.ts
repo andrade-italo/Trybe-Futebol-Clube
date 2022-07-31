@@ -47,7 +47,7 @@ describe('Testando a rota post /login', () => {
   
     const { message } = chaiHttpResponse.body;
 
-    expect(message).to.be.contain('"email" is required');
+    expect(message).to.be.contain('All fields must be filled');
     expect(chaiHttpResponse).to.have.status(400);
   });
 
@@ -59,7 +59,7 @@ describe('Testando a rota post /login', () => {
 
     const { message } = chaiHttpResponse.body;
 
-    expect(message).to.be.contain('"password" is required');
+    expect(message).to.be.contain('All fields must be filled');
     expect(chaiHttpResponse).to.have.status(400);
   });
 
@@ -71,7 +71,7 @@ describe('Testando a rota post /login', () => {
 
     const { message } = chaiHttpResponse.body;
 
-    expect(message).to.be.contain('"email" must be a valid email');
+    expect(message).to.be.contain('Incorrect email or password');
     expect(chaiHttpResponse).to.have.status(422);
   });
 
@@ -83,7 +83,7 @@ describe('Testando a rota post /login', () => {
 
     const { message } = chaiHttpResponse.body;
 
-    expect(message).to.be.contain('"password" length must be at least 6 characters long');
+    expect(message).to.be.contain('Incorrect email or password');
     expect(chaiHttpResponse).to.have.status(422);
   });
 });

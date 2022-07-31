@@ -8,8 +8,12 @@ class LoginDataValidate {
 
   private joiValidate = (attributes: { password: string, email: string }) => {
     const { error } = Joi.object({
-      password: Joi.string().min(6).required(),
-      email: Joi.string().email().required(),
+      password: Joi.string().min(6).required().messages({
+        'any.required': 'All fields must be filled',
+      }),
+      email: Joi.string().email().required().messages({
+        'any.required': 'All fields must be filled',
+      }),
     }).validate(attributes);
     return error;
   };
@@ -19,10 +23,12 @@ class LoginDataValidate {
     const error = this.joiValidate(attributes);
 
     if (error) {
-      if (error.message.match(/required/i)) {
+      if (error.message.match(/fields/i)) {
         return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
       }
-      return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ message: error.message });
+      return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
+        message: 'Incorrect email or password',
+      });
     }
     return next();
   };
