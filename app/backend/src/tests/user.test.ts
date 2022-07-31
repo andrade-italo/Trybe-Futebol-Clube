@@ -63,7 +63,7 @@ describe('Testando a rota post /login', () => {
     expect(chaiHttpResponse).to.have.status(400);
   });
 
-  it('Ao fazer a requisição faltando password, retorna a mensagem: "password is required e o status 400', async () => {
+  it('Ao fazer a requisição com um email invalido, retorna a mensagem: "email must be valid e o status 422', async () => {
     chaiHttpResponse = await chai
     .request(app)
     .post('/login')
@@ -75,7 +75,7 @@ describe('Testando a rota post /login', () => {
     expect(chaiHttpResponse).to.have.status(422);
   });
 
-  it('Ao fazer a requisição faltando password, retorna a mensagem: "password is required e o status 400', async () => {
+  it('Ao fazer a requisição com password menor que 6, retorna a mensagem: "password length e o status 422', async () => {
     chaiHttpResponse = await chai
     .request(app)
     .post('/login')
@@ -85,5 +85,39 @@ describe('Testando a rota post /login', () => {
 
     expect(message).to.be.contain('"password" length must be at least 6 characters long');
     expect(chaiHttpResponse).to.have.status(422);
+  });
+});
+describe('Testando a rota get /login/validate', () => {
+  let chaiHttpResponse: Response;
+  let getToken: Response;
+
+  before(async () => {
+    sinon
+      .stub(User, "findOne")
+      .resolves(userMock[0] as User);
+  });
+
+  after(()=>{
+    (User.findOne as sinon.SinonStub).restore();
+  })
+
+  it('A rota retorna o campo role com o valor correspondente ao usuario', async () => {
+    const bodyValido: {} = {
+      email: 'italo@gmail.com',
+      password: '123456'
+    }
+    getToken = await chai
+       .request(app)
+       .post('/login')
+       .send(bodyValido);
+    const { token } = getToken.body;
+
+    chaiHttpResponse = await chai
+       .request(app)
+       .get('/login/validate')
+       .set({ authorization: token });
+
+    expect(chaiHttpResponse.body).to.eql({ role: 'admin' });
+    expect(chaiHttpResponse).to.have.status(200);
   });
 });
