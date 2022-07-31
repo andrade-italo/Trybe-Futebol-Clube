@@ -11,13 +11,13 @@ class LoginService {
   public async validUser(email:string, password:string) {
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return { message: 'Email não cadastrado' };
+      return { message: 'Incorrect email or password' };
     }
     const isValidPass = compareSync(password, user.password);
     const token = jwt.sign({ email, role: user.role }, this.jwtSecret, this.jwtConfig);
 
     if (!isValidPass) {
-      return { message: 'password invalida' };
+      return { message: 'Incorrect email or password' };
     }
 
     return { token };
