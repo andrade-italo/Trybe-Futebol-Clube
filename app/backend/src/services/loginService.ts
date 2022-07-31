@@ -14,7 +14,7 @@ class LoginService {
       return { message: 'Email não cadastrado' };
     }
     const isValidPass = compareSync(password, user.password);
-    const token = jwt.sign({ email }, this.jwtSecret, this.jwtConfig);
+    const token = jwt.sign({ email, role: user.role }, this.jwtSecret, this.jwtConfig);
 
     if (!isValidPass) {
       return { message: 'password invalida' };
