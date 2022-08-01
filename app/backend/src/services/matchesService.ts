@@ -12,6 +12,11 @@ class MatchesService {
     });
     return matches;
   };
+
+  public createMatches = async (payload: any) => {
+    const matches = await Matches.create(payload);
+    return matches;
+  };
 }
 
 export default MatchesService;
