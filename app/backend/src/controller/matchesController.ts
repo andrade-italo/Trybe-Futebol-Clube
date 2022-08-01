@@ -11,7 +11,7 @@ class MatchesController {
 
   public getMatches = async (req: Request, res: Response) => {
     const { inProgress } = req.query;
-  
+
     const matchesResponse = await this.matchesService.getByQuery(inProgress);
     return res.status(StatusCodes.OK).json(matchesResponse);
   };
