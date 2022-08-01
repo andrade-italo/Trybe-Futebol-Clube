@@ -43,7 +43,7 @@ class LoginDataValidate {
       req.userInfo = { role, email };
       return next();
     } catch (err) {
-      return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Expired or invalid token' });
+      return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Token must be a valid token' });
     }
   };
 }
