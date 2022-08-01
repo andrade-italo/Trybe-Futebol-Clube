@@ -1,7 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
 import LoginService from '../services/loginService';
-// import { userInfo } from 'os';
 
 class LoginController {
   loginService: LoginService;

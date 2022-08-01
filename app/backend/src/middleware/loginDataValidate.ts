@@ -7,15 +7,13 @@ class LoginDataValidate {
   private jwtSecret = process.env.JWT_SECRET || 'jwt_secret';
 
   private joiValidate = (attributes: { password: string, email: string }) => {
+    const message = {
+      'any.required': 'All fields must be filled',
+      'string.empty': 'All fields must be filled',
+    };
     const { error } = Joi.object({
-      password: Joi.string().min(6).required().messages({
-        'any.required': 'All fields must be filled',
-        'string.empty': 'All fields must be filled',
-      }),
-      email: Joi.string().email().required().messages({
-        'any.required': 'All fields must be filled',
-        'string.empty': 'All fields must be filled',
-      }),
+      password: Joi.string().min(6).required().messages(message),
+      email: Joi.string().email().required().messages(message),
     }).validate(attributes);
     return error;
   };
@@ -24,8 +22,8 @@ class LoginDataValidate {
     const attributes = req.body;
     const error = this.joiValidate(attributes);
     if (error) {
-      const teste = error.message.match('fields')
-      if (!!teste?.input) {
+      const teste = error.message.match('fields');
+      if (teste?.input) {
         return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
       }
       return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
