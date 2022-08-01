@@ -36,6 +36,7 @@ Matches.init({
   },
   inProgress: {
     type: DataTypes.INTEGER,
+    defaultValue: true,
     allowNull: false,
   },
 }, {
