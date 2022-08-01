@@ -15,6 +15,13 @@ class MatchesController {
     const matchesResponse = await this.matchesService.getByQuery(inProgress);
     return res.status(StatusCodes.OK).json(matchesResponse);
   };
+
+  public createMatches = async (req: Request, res: Response) => {
+    const payload = req.body;
+
+    const matchesResponse = await this.matchesService.createMatches(payload);
+    return res.status(StatusCodes.CREATED).json(matchesResponse);
+  };
 }
 
 export default MatchesController;
