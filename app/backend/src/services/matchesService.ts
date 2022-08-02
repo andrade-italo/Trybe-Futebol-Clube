@@ -33,6 +33,11 @@ class MatchesService {
     await Matches.update({ inProgress: false }, { where: { id } });
     return true;
   };
+
+  public updateMatch = async (id: any, payload: any) => {
+    await Matches.update({ ...payload }, { where: { id } });
+    return true;
+  };
 }
 
 export default MatchesService;
