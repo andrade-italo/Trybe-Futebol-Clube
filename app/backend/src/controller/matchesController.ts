@@ -19,7 +19,15 @@ class MatchesController {
   public createMatches = async (req: Request, res: Response) => {
     const payload = req.body;
 
-    const matchesResponse = await this.matchesService.createMatches(payload);
+    const matchesResponse: any = await this.matchesService.createMatches(payload);
+
+    if (matchesResponse.message) {
+      const sameTeam = matchesResponse.message.match(/two equal/i);
+      if (sameTeam) return res.status(StatusCodes.UNAUTHORIZED).json(matchesResponse);
+
+      return res.status(StatusCodes.NOT_FOUND).json(matchesResponse);
+    }
+
     return res.status(StatusCodes.CREATED).json(matchesResponse);
   };
 
@@ -27,7 +35,10 @@ class MatchesController {
     const { id } = req.params;
 
     const matchesResponse = await this.matchesService.finishMatches(id);
-    return res.status(StatusCodes.OK).json(matchesResponse);
+    if (!matchesResponse) {
+      return res.status(StatusCodes.NOT_IMPLEMENTED).json({ message: 'Not created' });
+    }
+    return res.status(StatusCodes.OK).json({ message: 'Finished' });
   };
 }
 
