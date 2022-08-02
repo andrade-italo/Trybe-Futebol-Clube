@@ -40,6 +40,17 @@ class MatchesController {
     }
     return res.status(StatusCodes.OK).json({ message: 'Finished' });
   };
+
+  public updateMatch = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const payload = req.body;
+
+    const matchesResponse = await this.matchesService.updateMatch(id, payload);
+    if (!matchesResponse) {
+      return res.status(StatusCodes.NOT_IMPLEMENTED).json({ message: 'Not Updated' });
+    }
+    return res.status(StatusCodes.OK).json({ message: 'Updated' });
+  };
 }
 
 export default MatchesController;
