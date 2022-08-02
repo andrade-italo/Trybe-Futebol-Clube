@@ -17,6 +17,11 @@ class MatchesService {
     const matches = await Matches.create(payload);
     return matches;
   };
+
+  public finishMatches = async (id: any) => {
+    await Matches.update({ inProgress: false }, { where: { id } });
+    return { message: 'Finished' };
+  };
 }
 
 export default MatchesService;
