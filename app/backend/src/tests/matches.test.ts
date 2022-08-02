@@ -145,3 +145,41 @@ describe('Testando a rota post /matches', async () => {
     expect(chaiHttpResponse).to.have.status(401);
   });
 });
+
+describe('Testando a rota patch /matches/:id/finish', async () => {
+  before(async () => {
+    sinon
+      .stub(User, "findOne")
+      .resolves(userMock[0]);
+    sinon
+      .stub(Matches, "update")
+      .resolves(MatchesMockCreate[2]);
+  });
+
+  after(()=>{
+    (Matches.update as sinon.SinonStub).restore();
+    (User.findOne as sinon.SinonStub).restore();
+  })
+
+  let chaiHttpResponse: Response;
+
+  it('Ao fazer a requisição para a rota post matches com um body valido e authorização, retorna as partidas criadas e o status 201', async () => {
+    const bodyValido: {} = {
+      email: 'italo@gmail.com',
+      password: '123456'
+    }
+    const getToken = await chai
+    .request(app)
+    .post('/login')
+    .send(bodyValido);
+    const { token } = getToken.body;
+
+    chaiHttpResponse = await chai
+      .request(app)
+      .patch('/matches/1/finish')
+      .set({ authorization: token });
+        
+    expect(chaiHttpResponse.body).to.be.eql({ message: "Finished" });
+    expect(chaiHttpResponse).to.have.status(200);
+  });
+});
