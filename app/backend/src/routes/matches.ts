@@ -9,5 +9,6 @@ const loginDataValidate = new LoginDataValidate();
 
 router.get('/', matches.getMatches);
 router.post('/', loginDataValidate.authToken, matches.createMatches);
+router.patch('/:id/finish', loginDataValidate.authToken, matches.finishMatch);
 
 export default router;
