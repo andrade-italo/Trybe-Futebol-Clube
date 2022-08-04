@@ -11,12 +11,12 @@ class MatchesController {
 
   public getHomeOrAway = async (req: Request, res: Response) => {
     const homeOrAway = `${(req.url).slice(1)}Team`;
-    const matchesResponse = await this.leaderboardService.getByQuery(homeOrAway);
+    const matchesResponse = await this.leaderboardService.getLeaderboard(homeOrAway);
     return res.status(StatusCodes.OK).json(matchesResponse);
   };
 
   public getAllLeaderbord = async (req: Request, res: Response) => {
-    const matchesResponse = await this.leaderboardService.getByQuery();
+    const matchesResponse = await this.leaderboardService.getLeaderboard();
     return res.status(StatusCodes.OK).json(matchesResponse);
   };
 }

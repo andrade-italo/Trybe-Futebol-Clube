@@ -1,6 +1,7 @@
 import { Op } from 'sequelize';
 import Team from '../database/models/TeamsModel';
 import Matches from '../database/models/MatchesModel';
+import { IMatches, ILeaderboard } from '../interface/interfaces';
 
 class LeaderboardService {
   private dataTable = {
@@ -15,7 +16,7 @@ class LeaderboardService {
   private golsTime: string;
   private golsTimeAway: string;
 
-  private conditionalFunction(teamMatch: any, id: number) {
+  private conditionalFunction(teamMatch: IMatches, id: number) {
     if (teamMatch.awayTeam === id) {
       this.golsTime = 'awayTeamGoals';
       this.golsTimeAway = 'homeTeamGoals';
@@ -37,7 +38,7 @@ class LeaderboardService {
     };
   }
 
-  private helper(arrayTeamsMatch: any, id: number) {
+  private forEachPoints(arrayTeamsMatch: IMatches[], id: number) {
     this.clearTable();
     arrayTeamsMatch.forEach((teamMatch: any) => {
       this.conditionalFunction(teamMatch, id);
@@ -56,34 +57,34 @@ class LeaderboardService {
     return this.dataTable;
   }
 
-  private dataPoints = (arrayTeamsMatch: any, id: number, teamName: string) => {
+  private dataPoints = (arrayTeamsMatch: IMatches[], id: number, teamName: string) => {
     const dataTable = {
       name: teamName,
       totalGames: arrayTeamsMatch.length,
-      ...this.helper(arrayTeamsMatch, id),
+      ...this.forEachPoints(arrayTeamsMatch, id),
       goalsBalance: 0,
-      efficiency: '',
+      efficiency: 0,
     };
 
     dataTable.goalsBalance = dataTable.goalsFavor - dataTable.goalsOwn;
-    dataTable.efficiency = ((dataTable.totalPoints / (dataTable.totalGames * 3)) * 100)
-      .toFixed(2);
+    dataTable.efficiency = Number(((dataTable.totalPoints / (dataTable.totalGames * 3)) * 100)
+      .toFixed(2));
 
     return dataTable;
   };
 
-  public getByQuery = async (homeOrAway?: string) => {
-    const tabela: any = [];
+  public getLeaderboard = async (homeOrAway?: string) => {
+    const tabela: ILeaderboard[] = [];
     const allTeams = await Team.findAll();
     await Promise.all(allTeams.map(async ({ id, teamName }) => {
-      const arrayTimesMatch = await Matches.findAll(
+      const arrayTimesMatch: IMatches[] = await Matches.findAll(
         (homeOrAway && { where: { inProgress: false, [homeOrAway]: id } })
         || { where: { inProgress: false, [Op.or]: { homeTeam: id, awayTeam: id } } },
       );
       tabela.push(this.dataPoints(arrayTimesMatch, id, teamName));
     }));
 
-    return tabela.sort((a: any, b: any) => (
+    return tabela.sort((a: ILeaderboard, b: ILeaderboard) => (
       b.totalPoints - a.totalPoints
       || b.totalVictories - a.totalVictories
       || b.goalsBalance - a.goalsBalance
