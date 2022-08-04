@@ -1,4 +1,3 @@
-import { Op } from 'sequelize';
 import Team from '../database/models/TeamsModel';
 import Matches from '../database/models/MatchesModel';
 import { IMatches } from '../interface/interfaces';
@@ -21,10 +20,10 @@ class MatchesService {
     if (homeTeam === awayTeam) {
       return { message: 'It is not possible to create a match with two equal teams' };
     }
+    const findedHome = await Team.findOne({ where: { id: homeTeam } });
+    const findedAway = await Team.findOne({ where: { id: awayTeam } });
 
-    const finded = await Team.findOne({ where: { [Op.or]: [{ id: homeTeam }, { id: awayTeam }] } });
-
-    if (!finded) return { message: 'There is no team with such id!' };
+    if (!findedHome || !findedAway) return { message: 'There is no team with such id!' };
 
     const matches: IMatches = await Matches.create(payload);
     return matches;
