@@ -19,5 +19,3 @@ export interface ILeaderboard {
   goalsBalance: number,
   efficiency: number
 }
-
-export default IMatches;
