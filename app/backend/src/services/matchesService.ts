@@ -1,7 +1,7 @@
 import { Op } from 'sequelize';
 import Team from '../database/models/TeamsModel';
 import Matches from '../database/models/MatchesModel';
-import IMatches from '../interface/interfaces';
+import { IMatches } from '../interface/interfaces';
 
 class MatchesService {
   public getByQuery = async (inProgress?: any) => {
