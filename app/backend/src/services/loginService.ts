@@ -5,7 +5,7 @@ import User from '../database/models/UserModel';
 class LoginService {
   private jwtSecret = process.env.JWT_SECRET || 'jwt_secret';
   private jwtConfig = {
-    expiresIn: '1h',
+    expiresIn: '1d',
   };
 
   public async validUser(email:string, password:string) {
