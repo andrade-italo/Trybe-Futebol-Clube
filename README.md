@@ -1,16 +1,18 @@
 # 🚧 README em construção 🚧
 
-<!-- Olá, Tryber!
+Bem vindos!!!
 
-Esse é apenas um arquivo inicial para o README do seu projeto.
+Esse projeto foi desenvolvido durante o curso da trybe.
 
-É essencial que você preencha esse documento por conta própria, ok?
+O front-end foi inteiramente fornecido.
 
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
+O app foi desenvolvido em typescript, usando banco de dados relacional e na model é usada a ORM sequelize. 
+Busquei a orientação a objetos e os principios de solid no desenvolvimento.
 
-⚠️ IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
+Você pode interagir pelo front-end informando os seguintes dados:
+login: user@user.com
+senha: secret_user
 
--->
+Para acrescentar partidas ou mudar a quantidade de gols das partidas em andamento, precisará de um login com permissões especiais:
+login: admin@admin.com
+senha: secret_admin
